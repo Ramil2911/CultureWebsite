@@ -1,24 +1,20 @@
 <script lang="ts">
 	import '../app.postcss';
-	import { Session } from '../models/Session';
 	import { serverIps } from '../models/ServerIps';
-	import {ContextMenus} from "../models/ContextMenus"
 	import { goto } from '$app/navigation';
 	import jwt_decode from 'jwt-decode';
+	import { menu } from '../models/Stores/ContextMenuStore';
+	import ContextMenu from '../components/contextMenu/ContextMenu.svelte';
+	import {SessionStore} from "../models/Stores/SessionStore"
+	import {modal, props} from "../models/Stores/ModalStore"
 
 	$: isRegister = false;
 	$: authOpened = false;
-	$: isAuthorized = Session.isAuthorized;
+	$: isAuthorized = $SessionStore.isAuthorized;
 
 	$: login = '';
 	$: email = '';
 	$: password = '';
-
-	$: contextMenu = ContextMenus.currentMenu;
-	$: contextProps = ContextMenus.currentProps;
-
-	$: console.log(contextProps)
-	$: console.log(contextMenu)
 
 	async function Login() {
 		if (login == '' || password == '') {
@@ -30,17 +26,23 @@
 		);
 		if (response.ok) {
 			var result = await response.json();
-			Session.username = result.username;
-			Session.token = result.access_token;
-			Session.isAuthorized = true;
-			Session.role = jwt_decode(result.access_token)[
+			$SessionStore.username = result.username;
+			$SessionStore.token = result.access_token;
+			$SessionStore.isAuthorized = true;
+			$SessionStore.role = jwt_decode(result.access_token)[
 				'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
 			];
 		}
 	}
 </script>
 
-<div class="min-h-screen bg-[#102030]" on:click="{()=>{ContextMenus.currentMenu = null}}">
+<div
+	class="min-h-screen bg-[#102030]"
+	on:click={() => {
+		menu.set(undefined);
+		modal.set(undefined)
+	}}
+>
 	<div class="flex-1 flex flex-col h-14 bg-gray-900 text-white">
 		<nav class="flex justify-between h-16 border-b-2 border-none">
 			<ul class="flex items-center">
@@ -63,7 +65,7 @@
 				<li class="px-2 py-2 hover:bg-gray-800 rounded-lg cursor-pointer">
 					<span> Персонажи </span>
 				</li>
-				{#if Session.role == 'admin'}
+				{#if $SessionStore.role == 'admin'}
 					<li
 						class="px-2 py-2 hover:bg-gray-800 rounded-lg cursor-pointer"
 						on:click={() => goto('/admin')}
@@ -77,7 +79,7 @@
 
 			<ul class="flex items-center mr-4">
 				{#if isAuthorized}
-					<button class="p-2 bg-gray-800 rounded-lg">{Session.username}</button>
+					<button class="p-2 bg-gray-800 rounded-lg">{$SessionStore.username}</button>
 				{:else}
 					<button
 						class="p-2 bg-gray-800 rounded-lg"
@@ -163,4 +165,10 @@
 	</div>
 {/if}
 
-<svelte:component this="{contextMenu}" {...contextProps}/>
+<ContextMenu />
+
+{#if $modal != null}
+<div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+	<svelte:component this="{$modal}" {...$props}/>
+</div>
+{/if}

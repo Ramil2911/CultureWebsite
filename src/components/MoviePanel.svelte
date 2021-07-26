@@ -2,27 +2,21 @@
 	import type { Movie } from '../models/Movie';
 	import { serverIps } from '../models/ServerIps';
 	import { Genre } from '../models/Genres';
-	import { ContextMenus } from "../models/ContextMenus"
 	import { goto } from '$app/navigation';
 	import MovieContextMenu from './contextMenu/MovieContextMenu.svelte';
+	import { menu, props } from '../models/Stores/ContextMenuStore';
 
 	export let movie: Movie;
 
-
-	function open() {
-		goto('/movie/' + movie.id);
-	}
 	function openContextMenu(e) {
-		ContextMenus.currentProps = [];
-		ContextMenus.currentProps.push({pos:{x:e.clientX, y:e.clientY}})
-		ContextMenus.currentMenu = MovieContextMenu;
+		menu.set(MovieContextMenu);
+		props.set({ pos: { x: e.clientX, y: e.clientY }, movie: movie });
 	}
-
 </script>
 
 <div
 	class="flex flex-col rounded-lg bg-[#203040] h-[22rem] w-48 text-white cursor-pointer"
-	on:click={open}
+	on:click={goto('/movie/' + movie.id)}
 	on:contextmenu|preventDefault={openContextMenu}
 >
 	<img

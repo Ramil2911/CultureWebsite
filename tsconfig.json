@@ -33,5 +33,5 @@
 		"src/models/*.ts",
 		"src/routes/*.svelte",
 		"src/components/*.svelte"
-	]
+, "src/models/Stores/SessionStore.ts", "src/models/Stores/ContextMenuStore.ts"	]
 }
