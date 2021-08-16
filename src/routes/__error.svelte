@@ -14,5 +14,5 @@
 	export let stack;
 </script>
 
-<h1 class="text-white">{title}</h1>
-<p class="text-white">{stack}</p>
+<h1 class="">{title}</h1>
+<p class="">{stack}</p>

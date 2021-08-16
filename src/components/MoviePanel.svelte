@@ -12,10 +12,15 @@
 		menu.set(MovieContextMenu);
 		props.set({ pos: { x: e.clientX, y: e.clientY }, movie: movie });
 	}
+
+	function getRandomColor() {
+  		var color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+  		return color;
+	}
 </script>
 
 <div
-	class="flex flex-col rounded-lg bg-[#203040] h-[22rem] w-48 text-white cursor-pointer"
+	class="flex flex-col rounded-lg bg-gray-100 h-[20rem] w-40 cursor-pointer shadow-lg"
 	on:click={goto('/movie/' + movie.id)}
 	on:contextmenu|preventDefault={openContextMenu}
 >
@@ -28,9 +33,9 @@
 		<div class="flex flex-col pl-2 pt-2 pr-2 pb-1">
 			<p class="text-lg">{movie.name}</p>
 			<p>{movie.originalName}</p>
-			<div class="flex content-center flex-wrap flex-grow gap-1">
+			<div class="flex flex-wrap flex-grow gap-1 h-[2.5rem] overflow-hidden">
 				{#each movie.genres as genre}
-					<div class="text-xs rounded-lg bg-red-900 px-1">
+					<div class="text-xs rounded-lg px-1" style="background-color: {getRandomColor()};">
 						{Genre[genre]}
 					</div>
 				{/each}

@@ -3,10 +3,10 @@
 	import MoviePanel from '../components/MoviePanel.svelte';
 	import { serverIps } from '../models/ServerIps';
 	import SkeletonPanel from '../components/SkeletonPanel.svelte';
+	import { onMount } from 'svelte';
 
+	let movies: Movie[] = [];
 	async function fetchPopularMovies(): Promise<Movie[]> {
-		let movies: Movie[] = [];
-
 		if (typeof process !== 'undefined') {
 			process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 		}
@@ -17,116 +17,191 @@
 		return movies;
 	}
 
-	var popularMovies = fetchPopularMovies();
+	onMount(async () => {
+		movies = await fetchPopularMovies();
+	});
 </script>
 
-<div class="grid 2xl:grid-cols-2 gap-y-4 gap-x-1 text-white">
+<div class="grid 2xl:grid-cols-2 gap-y-2 gap-x-1 ">
 	<div>
-		<p class="text-5xl mb-2">Фильмы</p>
+		<div class="inline-flex w-full">
+			<span class="text-5xl mb-2">Фильмы</span>
+			<div class="flex-grow" />
+			<div class="inline-flex mr-4 cursor-pointer">
+				<span class="text-lg mt-4">Больше</span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6 mt-5"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M13 7l5 5m0 0l-5 5m5-5H6"
+					/>
+				</svg>
+			</div>
+		</div>
 		<div class="flex justify-start">
-			<div class="h-[22rem] flex flex-wrap overflow-hidden gap-4 flex-initial">
-				{#await popularMovies}
-				<SkeletonPanel/>
-				{:then result}
-					{#each result as film}
+			<div class="h-[21rem] flex flex-wrap overflow-hidden gap-4 flex-initial">
+				{#if movies.length == 0}
+					{#each Array(5) as _}
+						<SkeletonPanel />
+					{/each}
+				{:else}
+					{#each movies as film}
 						<MoviePanel movie={film} />
 					{/each}
-				{:catch error}
-					<div class="flex rounded-lg bg-gray-700 h-80 w-48 text-white">
-						<p class="text-lg">{error.stack}</p>
-					</div>
-				{/await}
-			</div>
-			<div class="hover:cursor-pointer w-[40px] h-[36px] bg-[#283848] text-center rounded-full self-center flex items-center justify-center">
-				<span>></span>
+				{/if}
 			</div>
 		</div>
 	</div>
 	<div>
-		<p class="text-5xl mb-2">Сериалы</p>
+		<div class="inline-flex w-full">
+			<span class="text-5xl mb-2">Сериалы</span>
+			<div class="flex-grow" />
+			<div class="inline-flex mr-4 cursor-pointer">
+				<span class="text-lg mt-4">Больше</span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6 mt-5"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M13 7l5 5m0 0l-5 5m5-5H6"
+					/>
+				</svg>
+			</div>
+		</div>
 		<div class="flex justify-start">
-			<div class="h-[22rem] flex flex-wrap overflow-hidden gap-4 flex-grow-0">
-				{#await popularMovies}
-				<SkeletonPanel/>
-				{:then result}
-					{#each result as film}
+			<div class="h-[21rem] flex flex-wrap overflow-hidden gap-4 flex-grow-0">
+				{#if movies.length == 0}
+					{#each Array(5) as _}
+						<SkeletonPanel />
+					{/each}
+				{:else}
+					{#each movies as film}
 						<MoviePanel movie={film} />
 					{/each}
-				{:catch error}
-					<div class="flex rounded-lg bg-gray-700 h-80 w-48 text-white">
-						<p class="text-lg">{error.stack}</p>
-					</div>
-				{/await}
-			</div>
-			<div class="hover:cursor-pointer w-[40px] h-[36px] bg-[#283848] text-center rounded-full self-center flex items-center justify-center">
-				<span>></span>
+				{/if}
 			</div>
 		</div>
 	</div>
 	<div>
-		<p class="text-5xl mb-2">Книги</p>
+		<div class="inline-flex w-full">
+			<span class="text-5xl mb-2">Книги</span>
+			<div class="flex-grow" />
+			<div class="inline-flex mr-4 cursor-pointer">
+				<span class="text-lg mt-4">Больше</span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6 mt-5"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M13 7l5 5m0 0l-5 5m5-5H6"
+					/>
+				</svg>
+			</div>
+		</div>
 		<div class="flex justify-start">
-			<div class="h-[22rem] flex flex-wrap overflow-hidden gap-4 flex-grow-0">
-				{#await popularMovies}
-				<SkeletonPanel/>
-				{:then result}
-					{#each result as film}
+			<div class="h-[21rem] flex flex-wrap overflow-hidden gap-4 flex-grow-0">
+				{#if movies.length == 0}
+					{#each Array(5) as _}
+						<SkeletonPanel />
+					{/each}
+				{:else}
+					{#each movies as film}
 						<MoviePanel movie={film} />
 					{/each}
-				{:catch error}
-					<div class="flex rounded-lg bg-gray-700 h-80 w-48 text-white">
-						<p class="text-lg">{error.stack}</p>
-					</div>
-				{/await}
-			</div>
-			<div class="hover:cursor-pointer w-[40px] h-[36px] bg-[#283848] text-center rounded-full self-center flex items-center justify-center">
-				<span>></span>
+				{/if}
 			</div>
 		</div>
 	</div>
 	<div>
-		<p class="text-5xl mb-2">Персонажи</p>
+		<div class="inline-flex w-full">
+			<span class="text-5xl mb-2">Персонажи</span>
+			<div class="flex-grow" />
+			<div class="inline-flex mr-4 cursor-pointer">
+				<span class="text-lg mt-4">Больше</span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6 mt-5"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M13 7l5 5m0 0l-5 5m5-5H6"
+					/>
+				</svg>
+			</div>
+		</div>
 		<div class="flex justify-start">
-			<div class="h-[22rem] flex flex-wrap overflow-hidden gap-4 flex-grow-0">
-				{#await popularMovies}
-				<SkeletonPanel/>
-				{:then result}
-					{#each result as film}
+			<div class="h-[21rem] flex flex-wrap overflow-hidden gap-4 flex-grow-0">
+				{#if movies.length == 0}
+					{#each Array(5) as _}
+						<SkeletonPanel />
+					{/each}
+				{:else}
+					{#each movies as film}
 						<MoviePanel movie={film} />
 					{/each}
-				{:catch error}
-					<div class="flex rounded-lg bg-gray-700 h-80 w-48 text-white">
-						<p class="text-lg">{error.stack}</p>
-					</div>
-				{/await}
-			</div>
-			<div class="hover:cursor-pointer w-[40px] h-[36px] bg-[#283848] text-center rounded-full self-center flex items-center justify-center">
-				<span>></span>
+				{/if}
 			</div>
 		</div>
 	</div>
 	<div class="2xl:order-last">
-		<p class="text-5xl mb-2">Люди</p>
+		<div class="inline-flex w-full">
+			<span class="text-5xl mb-2">Больше</span>
+			<div class="flex-grow" />
+			<div class="inline-flex mr-4 cursor-pointer">
+				<span class="text-lg mt-4">Еще</span>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-6 w-6 mt-5"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M13 7l5 5m0 0l-5 5m5-5H6"
+					/>
+				</svg>
+			</div>
+		</div>
 		<div class="flex justify-start">
-			<div class="h-[22rem] flex flex-wrap overflow-hidden gap-4 flex-grow-0">
-				{#await popularMovies}
-				<SkeletonPanel/>
-				{:then result}
-					{#each result as film}
+			<div class="h-[21rem] flex flex-wrap overflow-hidden gap-4 flex-grow-0">
+				{#if movies.length == 0}
+					{#each Array(5) as _}
+						<SkeletonPanel />
+					{/each}
+				{:else}
+					{#each movies as film}
 						<MoviePanel movie={film} />
 					{/each}
-				{:catch error}
-					<div class="flex rounded-lg bg-gray-700 h-80 w-48 text-white">
-						<p class="text-lg">{error.stack}</p>
-					</div>
-				{/await}
-			</div>
-			<div class="hover:cursor-pointer w-[40px] h-[36px] bg-[#283848] text-center rounded-full self-center flex items-center justify-center">
-				<span>></span>
+				{/if}
 			</div>
 		</div>
 	</div>
-	<div>
-		НОВОСТИ
-	</div>
+	<div>НОВОСТИ</div>
 </div>

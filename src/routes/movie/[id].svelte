@@ -34,7 +34,7 @@
 			/>
 		</div>
 	</div>
-	<div class="col-start-2 col-end-5 min-w-[40rem] flex flex-col gap-4 divide-[#405060] text-white">
+	<div class="col-start-2 col-end-5 min-w-[40rem] flex flex-col gap-4 divide-[#405060] ">
 		<h1 class="font-sans text-5xl">{movie.name}</h1>
 		<hr class="bg-[#152535] h-[0.1rem]" />
 		<div class="w-full flex items-center">
