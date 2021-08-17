@@ -1,5 +1,5 @@
 <script lang="ts">
-  	import "../app.postcss";
+	import '../app.postcss';
 
 	import { serverIps } from '../models/ServerIps';
 	import { goto } from '$app/navigation';
@@ -31,9 +31,9 @@
 			if (response.ok) {
 				var result = await response.json();
 				Session.setUsername(result.username);
-				Session.setRole(jwt_decode(result.access_token)["role"]);
+				Session.setRole(jwt_decode(result.access_token)['role']);
 				Session.setToken(result.access_token);
-				goto("/")
+				goto('/');
 			}
 		} catch {
 			isAuthorizingError = true;

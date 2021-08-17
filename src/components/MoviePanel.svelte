@@ -14,8 +14,8 @@
 	}
 
 	function getRandomColor() {
-  		var color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
-  		return color;
+		var color = 'hsl(' + Math.random() * 360 + ', 100%, 75%)';
+		return color;
 	}
 </script>
 
