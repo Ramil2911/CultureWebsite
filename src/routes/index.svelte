@@ -18,7 +18,7 @@
 		var response = await fetch(serverIps[1] + '/movies/FetchMovies?lenght=5&skip=0');
 		var json = await response.json();
 
-		movies=json;
+		movies = json;
 		return movies;
 	}
 
@@ -32,12 +32,10 @@
 		}
 		var response = await fetch(serverIps[6] + '/movies/FetchMovies?lenght=5&skip=0');
 		var json = await response.json();
-
 	}
 
 	onMount(async () => {
 		movies = await fetchPopularMovies();
-		
 	});
 </script>
 

@@ -88,19 +88,16 @@
 	});
 
 	async function Upload() {
-		var response = await fetch(serverIps[6] + '/blogs/add?guid='+draft.guid, {
-				headers: new Headers({
-					Authorization: 'Bearer ' + Session.getToken(),
-				}),
-				method: 'PUT'
-			});
-		if(!response.ok)
-		{
+		var response = await fetch(serverIps[6] + '/blogs/add?guid=' + draft.guid, {
+			headers: new Headers({
+				Authorization: 'Bearer ' + Session.getToken()
+			}),
+			method: 'PUT'
+		});
+		if (!response.ok) {
 			isUploadError = true;
-		}
-		else
-		{
-			goto("/blogs/post/"+draft.guid);
+		} else {
+			goto('/blogs/post/' + draft.guid);
 		}
 	}
 </script>
@@ -115,7 +112,11 @@
 			<button class="bg-blue-600 p-3 rounded-xl text-white" on:click={Upload}>
 				<span>Опубликовать</span>
 			</button>
-			<span class="{isUploadError ? "text-red-500" : "text-gray-500"}">{isUploadError ? "Произошла ошибка" : "Текст сохраняется автоматически каждые 5 секунд"}</span>
+			<span class={isUploadError ? 'text-red-500' : 'text-gray-500'}
+				>{isUploadError
+					? 'Произошла ошибка'
+					: 'Текст сохраняется автоматически каждые 5 секунд'}</span
+			>
 		</div>
 	</div>
 </div>
