@@ -6,10 +6,13 @@
 	import * as Session from '../../../models/Session';
 	import { page } from '$app/stores';
 	import { onDestroy } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	let editor;
 	let draft: Post = new Post('', '', BigInt(0), '', '', '', '');
 	let interval;
+
+	$: isUploadError = false;
 
 	onMount(async () => {
 		const res = await fetch(serverIps[6] + '/drafts/get/' + $page.params.guid, {
@@ -85,9 +88,20 @@
 	});
 
 	async function Upload() {
-		editor.save().then((outputData) => {
-			console.log(outputData);
-		});
+		var response = await fetch(serverIps[6] + '/blogs/add?guid='+draft.guid, {
+				headers: new Headers({
+					Authorization: 'Bearer ' + Session.getToken(),
+				}),
+				method: 'PUT'
+			});
+		if(!response.ok)
+		{
+			isUploadError = true;
+		}
+		else
+		{
+			goto("/blogs/post/"+draft.guid);
+		}
 	}
 </script>
 
@@ -101,7 +115,7 @@
 			<button class="bg-blue-600 p-3 rounded-xl text-white" on:click={Upload}>
 				<span>Опубликовать</span>
 			</button>
-			<span class="text-gray-500 pl-2">Текст сохраняется автоматически каждые 5 секунд</span>
+			<span class="{isUploadError ? "text-red-500" : "text-gray-500"}">{isUploadError ? "Произошла ошибка" : "Текст сохраняется автоматически каждые 5 секунд"}</span>
 		</div>
 	</div>
 </div>

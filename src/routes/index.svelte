@@ -1,11 +1,16 @@
 <script lang="ts">
 	import type { Movie } from '../models/Movie';
+	import type { Post } from '../models/Post';
 	import MoviePanel from '../components/MoviePanel.svelte';
+	import PostPanel from '../components/PostPanel.svelte';
 	import { serverIps } from '../models/ServerIps';
 	import SkeletonPanel from '../components/SkeletonPanel.svelte';
 	import { onMount } from 'svelte';
 
-	let movies: Movie[] = [];
+	$: movies = [];
+	$: popularPosts = [];
+	$: latestPosts = [];
+
 	async function fetchPopularMovies(): Promise<Movie[]> {
 		if (typeof process !== 'undefined') {
 			process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
@@ -13,12 +18,26 @@
 		var response = await fetch(serverIps[1] + '/movies/FetchMovies?lenght=5&skip=0');
 		var json = await response.json();
 
-		Object.assign(movies, json);
+		movies=json;
 		return movies;
+	}
+
+	async function fetchPopularPosts() {
+		return await fetchLatestPosts(); //TODO: popular
+	}
+
+	async function fetchLatestPosts() {
+		if (typeof process !== 'undefined') {
+			process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+		}
+		var response = await fetch(serverIps[6] + '/movies/FetchMovies?lenght=5&skip=0');
+		var json = await response.json();
+
 	}
 
 	onMount(async () => {
 		movies = await fetchPopularMovies();
+		
 	});
 </script>
 
