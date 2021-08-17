@@ -79,7 +79,7 @@
 					? 'bg-gray-200'
 					: 'bg-gray-100'} flex items-center px-4 group cursor-pointer"
 			>
-				<p class="py-2 flex-grow" on:click={() => goto('/blogs/draft/' + draft.guid)}>
+				<p class="py-2 flex-grow break-all" on:click={() => goto('/blogs/draft/' + draft.guid)}>
 					{i + 1}. {draft.title}
 				</p>
 				<svg
