@@ -60,7 +60,7 @@
 
 				<div class="flex-grow lg:!hidden" />
 
-				<div class="flex flex-grow items-center h-full ml-2 hidden lg:!visible">
+				<div class="flex flex-grow items-center h-full ml-2 hidden lg:flex">
 					<div class="px-2 py-2 hover:bg-gray-200 rounded-lg cursor-pointer">
 						<span> Кино </span>
 					</div>
