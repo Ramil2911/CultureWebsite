@@ -4,6 +4,7 @@
 	import { serverIps } from '../../../models/ServerIps';
 	import { Post } from '../../../models/Post';
 	import * as Session from '../../../models/Session';
+	import {uploader} from "../../../models/ImageUploader"
 	import { page } from '$app/stores';
 	import { onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
@@ -23,6 +24,7 @@
 		let EditorJS = (await import('@editorjs/editorjs')).default;
 		let Header = (await import('@editorjs/header')).default;
 		let List = (await import('@editorjs/list')).default;
+		let ImageTool = (await import('@editorjs/image')).default;
 
 		let editorParser = editorjsHTML();
 
@@ -36,6 +38,12 @@
 					list: {
 						class: List,
 						inlineToolbar: true
+					},
+					image: {
+						class: ImageTool,
+						config: {
+							uploader: uploader
+						}
 					}
 				}
 			});
@@ -49,6 +57,23 @@
 					list: {
 						class: List,
 						inlineToolbar: true
+					},
+					image: {
+						class: ImageTool,
+						config: {
+							uploader: {
+								async uploadByFile(file) {
+									var form = new FormData();
+									form.append("file", file);
+									var res = await fetch(serverIps[4]+"/image/addFile", {method: "POST", body: form, headers: new Headers({ Authorization: 'Bearer ' + Session.getToken()})});
+									return await res.json();
+								},
+								async uploadByUrl(url) {
+									var res = await fetch(serverIps[4]+"/image/addUrl?url="+url, {method: "POST", headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() })});
+									return await res.json();
+								}
+							}
+						}
 					}
 				},
 				data: JSON.parse(draft.bodyRaw)

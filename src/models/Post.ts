@@ -8,6 +8,8 @@ export class Post {
 	bodyHtml: string;
 	bodyRaw: string;
 	note: string;
+	rankUppers: [];
+	rankDowners: [];
 
 	constructor(
 		guid: string,

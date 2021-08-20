@@ -12,7 +12,7 @@
 	let offsetY;
 </script>
 
-<svelte:window bind:scrollX="{offsetX}" bind:scrollY="{offsetY}"/>
+<svelte:window bind:scrollX={offsetX} bind:scrollY={offsetY} />
 
 <div style="position:absolute;top:{pos.y}px;left:{pos.x}px;">
 	<div class="bg-white  flex flex-col text-left rounded-lg shadow-xl">
@@ -32,9 +32,9 @@
 				class="px-2 pb-1 rounded-b-lg hover:bg-gray-100 text-left "
 				on:click={() => {
 					modal.set(DeleteMovieModal);
-					modalProps.set({movie: movie})
-					menu.set(null)
-					menuProps.set(null)
+					modalProps.set({ movie: movie });
+					menu.set(null);
+					menuProps.set(null);
 				}}
 			>
 				Удалить (!)

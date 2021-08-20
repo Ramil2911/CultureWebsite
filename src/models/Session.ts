@@ -1,7 +1,12 @@
 import { getCookie, createCookie } from '../models/Cookies';
 
 export function isAuthenticated(): Boolean {
-	return getCookie('access_token') != '' && getCookie('username') != '' && getCookie('role') != '';
+	return (
+		getCookie('access_token') != '' &&
+		getCookie('username') != '' &&
+		getCookie('role') != '' &&
+		getCookie('userId') != ''
+	);
 }
 
 export function getToken(): string {
@@ -29,4 +34,13 @@ export function getRole(): string {
 
 export function setRole(role: string): void {
 	createCookie('role', role);
+}
+
+export function getUserid(): number {
+	var userIdString = getCookie('userId');
+	if (userIdString != '') return parseInt(userIdString);
+}
+
+export function setUserid(id: number): void {
+	createCookie('userId', id);
 }

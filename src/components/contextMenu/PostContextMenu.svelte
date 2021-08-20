@@ -2,7 +2,7 @@
 	import { modal } from '../../models/Stores/ModalStore';
 	import DeleteMovieModal from '../modals/DeleteMovieModal.svelte';
 	import * as Session from '../../models/Session';
-    import type {Post} from "../../models/Post"
+	import type { Post } from '../../models/Post';
 
 	export let pos: { x: Number; y: Number } = { x: 0, y: 0 };
 	export let post: Post;

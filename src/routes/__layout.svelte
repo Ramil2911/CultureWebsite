@@ -34,6 +34,7 @@
 				var result = await response.json();
 				Session.setUsername(result.username);
 				Session.setRole(jwt_decode(result.access_token)['role']);
+				Session.setUserid(jwt_decode(result.access_token)['id']);
 				Session.setToken(result.access_token);
 				goto('/');
 			}
@@ -54,9 +55,9 @@
 	>
 		<div class="flex-1 flex flex-col h-14 bg-gray-100 shadow">
 			<div class="flex h-16 border-b-2 border-none items-center">
-				<div class="flex items-center">
+				<a href="/" class="flex items-center">
 					<p class="h-6 px-4">Blabla</p>
-				</div>
+				</a>
 
 				<div class="flex-grow lg:!hidden" />
 

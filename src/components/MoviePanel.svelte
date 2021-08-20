@@ -21,7 +21,9 @@
 
 <div
 	class="flex flex-col rounded-lg bg-gray-100 h-[20rem] w-40 cursor-pointer shadow-lg"
-	on:click={()=>{goto('/movie/' + movie.id)}}
+	on:click={() => {
+		goto('/movie/' + movie.id);
+	}}
 	on:contextmenu|preventDefault={openContextMenu}
 >
 	<img
