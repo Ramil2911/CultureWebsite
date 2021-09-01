@@ -16,7 +16,7 @@
 	$: isUploadError = false;
 
 	onMount(async () => {
-		const res = await fetch(serverIps[6] + '/drafts/get/' + $page.params.guid, {
+		const res = await fetch(serverIps[6] + '/drafts/' + $page.params.guid, {
 			headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() })
 		});
 		draft = await res.json();
@@ -61,18 +61,7 @@
 					image: {
 						class: ImageTool,
 						config: {
-							uploader: {
-								async uploadByFile(file) {
-									var form = new FormData();
-									form.append("file", file);
-									var res = await fetch(serverIps[4]+"/image/addFile", {method: "POST", body: form, headers: new Headers({ Authorization: 'Bearer ' + Session.getToken()})});
-									return await res.json();
-								},
-								async uploadByUrl(url) {
-									var res = await fetch(serverIps[4]+"/image/addUrl?url="+url, {method: "POST", headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() })});
-									return await res.json();
-								}
-							}
+							uploader: uploader
 						}
 					}
 				},
@@ -91,7 +80,7 @@
 					note: ''
 				})
 			);
-			const res = await fetch(serverIps[6] + '/drafts/update?guid=' + $page.params.guid, {
+			const res = await fetch(serverIps[6] + '/drafts/' + $page.params.guid, {
 				headers: new Headers({
 					Authorization: 'Bearer ' + Session.getToken(),
 					Accept: 'application/json',
@@ -113,7 +102,7 @@
 	});
 
 	async function Upload() {
-		var response = await fetch(serverIps[6] + '/blogs/add?guid=' + draft.guid, {
+		var response = await fetch(serverIps[6] + '/blogs/' + draft.guid, {
 			headers: new Headers({
 				Authorization: 'Bearer ' + Session.getToken()
 			}),

@@ -28,7 +28,7 @@
 			}
 			var response = await fetch(
 				serverIps[0] + '/Login?username=' + login + '&password=' + password,
-				{ method: 'POST' }
+				{ method: 'GET' }
 			);
 			if (response.ok) {
 				var result = await response.json();

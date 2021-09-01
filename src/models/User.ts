@@ -1,6 +1,6 @@
 export class User {
 	Id: BigInt;
-	Login: string;
+	Username: string;
 	AvatarId: BigInt;
 	Role: string;
 	RegisterTime: string;

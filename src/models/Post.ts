@@ -8,6 +8,7 @@ export class Post {
 	bodyHtml: string;
 	bodyRaw: string;
 	note: string;
+	rank: number;
 	rankUppers: [];
 	rankDowners: [];
 

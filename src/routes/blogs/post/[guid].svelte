@@ -2,8 +2,6 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
-	import { Post } from '../../../models/Post';
-	import type { User } from '../../../models/User';
 	import { serverIps } from '../../../models/ServerIps';
 	import * as Session from '../../../models/Session';
 		import {uploader} from "../../../models/ImageUploader"
@@ -86,7 +84,8 @@
 		var old = ranked;
 		ranked = 1;
 		var res = await fetch(serverIps[6] + '/blogs/' + $page.params.guid + '/rankup', {
-			headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() })
+			headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() }),
+			method: "HEAD"
 		});
 		if (res.ok) {
 			if (!record.rankUppers.includes(Session.getUserid()))
@@ -102,7 +101,8 @@
 		var old = ranked;
 		ranked = -1;
 		var res = await fetch(serverIps[6] + '/blogs/' + $page.params.guid + '/rankdown', {
-			headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() })
+			headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() }),
+			method: "HEAD"
 		});
 		if (res.ok) {
 			if (!record.rankDowners.includes(Session.getUserid()))
@@ -117,10 +117,10 @@
 </script>
 
 <div class="flex justify-center">
-	<div class="max-w-[840px] shadow bg-white rounded-xl text-lg overflow-hidden">
+	<div class="max-w-[840px] shadow bg-white rounded-xl text-lg overflow-hidden flex-1">
 		{#if author}
 			<div class="h-[2rem] w-full inline-flex bg-gray-100 px-4 pt-1 items-center">
-				<span>{author.login}</span>
+				<span>{author.username}</span>
 				{#if author.role == 'admin'}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -139,13 +139,11 @@
 				{/if}
 			</div>
 		{:else}
-			<div class="h-[3rem] w-full animate-pulse" />
+			<div class="h-[2rem] w-full animate-pulse" />
 		{/if}
-		<div class="mx-4 mt-2">
+		<div class="mx-4 mt-2 flex flex-col max-w-[720px]">
 			<p class="text-3xl w-full outline-none">{record ? record.title : ''}</p>
-			<div>
-				<div class="max-w-[840px] flex-grow bordex-x-2 text-base" id="editorjs" />
-			</div>
+			<div class="flex-grow flex-1 bordex-x-2 text-base" id="editorjs" />
 		</div>
 		<div class="w-full flex bg-gray-100 h-[2.5rem] px-3 items-center">
 			<svg

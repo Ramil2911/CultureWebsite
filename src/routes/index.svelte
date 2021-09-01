@@ -15,7 +15,7 @@
 		if (typeof process !== 'undefined') {
 			process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 		}
-		var response = await fetch(serverIps[1] + '/movies/FetchMovies?lenght=5&skip=0');
+		var response = await fetch(serverIps[1] + '/culture/movies/popular?lenght=5&skip=0');
 		var json = await response.json();
 
 		movies = json;

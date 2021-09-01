@@ -16,7 +16,7 @@
 	$: nameField = '';
 
 	onMount(async () => {
-		var response = await fetch(serverIps[6] + '/drafts/get', {
+		var response = await fetch(serverIps[6] + '/drafts', {
 			headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() })
 		});
 		console.log(Session.getToken());
@@ -28,9 +28,9 @@
 	});
 
 	const Create = async () => {
-		var res = await fetch(serverIps[6] + '/drafts/add?title=' + nameField, {
+		var res = await fetch(serverIps[6] + '/drafts/new/' + nameField, {
 			headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() }),
-			method: 'POST'
+			method: 'PUT'
 		});
 		var guid = (await res.json()).guid;
 		goto('/blogs/draft/' + guid);
@@ -42,7 +42,7 @@
 			method: 'DELETE'
 		});
 
-		var response = await fetch(serverIps[6] + '/drafts/get', {
+		var response = await fetch(serverIps[6] + '/drafts', {
 			headers: new Headers({ Authorization: 'Bearer ' + Session.getToken() })
 		});
 		var json = await response.json();
